@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Tracker for Students</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #ffcc00;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            padding: 3rem 0;
+            text-align: center;
+            background-color: white;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #666;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .dashboard {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        select, input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .chart-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-title {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .student-list {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Digital Skills Tracker</div>
+                <nav>
+                    <ul>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#students">Students</a></li>
+                        <li><a href="#analytics">Analytics</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Track Student Digital Skills Progress</h1>
+            <p>Monitor and analyze student performance in computer literacy, internet usage, and mobile skills development</p>
+            <a href="#dashboard" class="btn">View Dashboard</a>
+        </div>
+    </section>
+
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Student Skills Dashboard</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="education-filter">Education Level</label>
+                    <select id="education-filter">
+                        <option value="all">All Levels</option>
+                        <option value="None">None</option>
+                        <option value="Primary">Primary</option>
+                        <option value="Secondary">Secondary</option>
+                        <option value="High School">High School</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="location-filter">Location Type</label>
+                    <select id="location-filter">
+                        <option value="all">All Locations</option>
+                        <option value="Rural">Rural</option>
+                        <option value="Semi-Rural">Semi-Rural</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="engagement-filter">Engagement Level</label>
+                    <select id="engagement-filter">
+                        <option value="all">All Levels</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search">Search Student</label>
+                    <input type="text" id="search" placeholder="Enter User ID">
+                </div>
+            </div>
+            
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-value" id="total-students">0</div>
+                    <div class="stat-desc">Registered in program</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average Literacy Score</div>
+                    <div class="stat-value" id="avg-literacy">0</div>
+                    <div class="stat-desc">Post-training assessment</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completion Rate</div>
+                    <div class="stat-value" id="completion-rate">0%</div>
+                    <div class="stat-desc">Modules completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Employment Impact</div>
+                    <div class="stat-value" id="employment-impact">0%</div>
+                    <div class="stat-desc">Positive employment outcomes</div>
+                </div>
+            </div>
+            
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3 class="chart-title">Skills Improvement</h3>
+                    <canvas id="skills-chart" width="400" height="300"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Literacy Score Distribution</h3>
+                    <canvas id="distribution-chart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="student-list">
+                <h3 class="chart-title">Student Progress</h3>
+                <table id="student-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Education Level</th>
+                            <th>Basic Computer</th>
+                            <th>Internet Usage</th>
+                            <th>Mobile Literacy</th>
+                            <th>Overall Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-table-body">
+                        <!-- Student data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Digital Skills Tracker for Students &copy; 2023</p>
+            <p>Demonstrating OOP concepts: Polymorphism and File Handling</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dataset from the provided CSV
+        const dataset = [
+            // Dataset would be loaded here in a real implementation
+            // For demonstration, we'll use a subset
+            {User_ID: "U0001", Education_Level: "Primary", Basic_Computer_Knowledge_Score: 25, Internet_Usage_Score: 1, Mobile_Literacy_Score: 33, Post_Training_Basic_Computer_Knowledge_Score: 54, Post_Training_Internet_Usage_Score: 50, Post_Training_Mobile_Literacy_Score: 72, Overall_Literacy_Score: 58.2},
+            {User_ID: "U0002", Education_Level: "High School", Basic_Computer_Knowledge_Score: 22, Internet_Usage_Score: 14, Mobile_Literacy_Score: 35, Post_Training_Basic_Computer_Knowledge_Score: 52, Post_Training_Internet_Usage_Score: 39, Post_Training_Mobile_Literacy_Score: 76, Overall_Literacy_Score: 55.3},
+            {User_ID: "U0003", Education_Level: "Primary", Basic_Computer_Knowledge_Score: 14, Internet_Usage_Score: 31, Mobile_Literacy_Score: 14, Post_Training_Basic_Computer_Knowledge_Score: 46, Post_Training_Internet_Usage_Score: 52, Post_Training_Mobile_Literacy_Score: 61, Overall_Literacy_Score: 52.3},
+            // More data would be loaded in a real implementation
+        ];
+
+        // File Handler Class (demonstrating file handling concept)
+        class DataFileHandler {
+            constructor(data) {
+                this.data = data;
+            }
+            
+            loadData() {
+                // In a real implementation, this would load from a file
+                console.log("Loading student data...");
+                return this.data;
+            }
+            
+            filterData(filters) {
+                let filteredData = this.data;
+                
+                if (filters.education && filters.education !== 'all') {
+                    filteredData = filteredData.filter(student => 
+                        student.Education_Level === filters.education);
+                }
+                
+                if (filters.location && filters.location !== 'all') {
+                    filteredData = filteredData.filter(student => 
+                        student.Location_Type === filters.location);
+                }
+                
+                if (filters.engagement && filters.engagement !== 'all') {
+                    filteredData = filteredData.filter(student => 
+                        student.Engagement_Level === filters.engagement);
+                }
+                
+                if (filters.search) {
+                    filteredData = filteredData.filter(student => 
+                        student.User_ID.toLowerCase().includes(filters.search.toLowerCase()));
+                }
+                
+                return filteredData;
+            }
+            
+            saveData() {
+                // In a real implementation, this would save to a file
+                console.log("Saving student data...");
+            }
+        }
+
+        // Progress Tracker Class (demonstrating polymorphism)
+        class ProgressTracker {
+            constructor(student) {
+                this.student = student;
+            }
+            
+            calculateImprovement() {
+                // This method can be overridden by subclasses
+                const computerImprovement = this.student.Post_Training_Basic_Computer_Knowledge_Score - this.student.Basic_Computer_Knowledge_Score;
+                const internetImprovement = this.student.Post_Training_Internet_Usage_Score - this.student.Internet_Usage_Score;
+                const mobileImprovement = this.student.Post_Training_Mobile_Literacy_Score - this.student.Mobile_Literacy_Score;
+                
+                return {
+                    computer: computerImprovement,
+                    internet: internetImprovement,
+                    mobile: mobileImprovement,
+                    total: computerImprovement + internetImprovement + mobileImprovement
+                };
+            }
+            
+            getProgressPercentage() {
+                // Default implementation
+                return (this.student.Overall_Literacy_Score / 100) * 100;
+            }
+        }
+
+        // Specialized trackers (demonstrating polymorphism)
+        class PrimaryStudentTracker extends ProgressTracker {
+            getProgressPercentage() {
+                // Override for primary students - different calculation
+                return (this.student.Overall_Literacy_Score / 100) * 110; // Bonus for primary students
+            }
+        }
+
+        class HighSchoolStudentTracker extends ProgressTracker {
+            getProgressPercentage() {
+                // Override for high school students
+                return (this.student.Overall_Literacy_Score / 100) * 95; // Stricter grading
+            }
+        }
+
+        // Dashboard Controller
+        class DashboardController {
+            constructor() {
+                this.fileHandler = new DataFileHandler(dataset);
+                this.currentData = this.fileHandler.loadData();
+                this.charts = {};
+                this.init();
+            }
+            
+            init() {
+                this.updateStats();
+                this.renderStudentTable();
+                this.initCharts();
+                this.setupEventListeners();
+            }
+            
+            updateStats() {
+                const totalStudents = this.currentData.length;
+                const avgLiteracy = this.currentData.reduce((sum, student) => 
+                    sum + student.Overall_Literacy_Score, 0) / totalStudents;
+                
+                // Calculate completion rate (simplified)
+                const completionRate = (this.currentData.filter(student => 
+                    student.Modules_Completed > 5).length / totalStudents) * 100;
+                
+                // Calculate employment impact (simplified)
+                const employmentImpact = (this.currentData.filter(student => 
+                    student.Employment_Impact === 'Yes').length / totalStudents) * 100;
+                
+                document.getElementById('total-students').textContent = totalStudents;
+                document.getElementById('avg-literacy').textContent = avgLiteracy.toFixed(1);
+                document.getElementById('completion-rate').textContent = completionRate.toFixed(1) + '%';
+                document.getElementById('employment-impact').textContent = employmentImpact.toFixed(1) + '%';
+            }
+            
+            renderStudentTable() {
+                const tableBody = document.getElementById('student-table-body');
+                tableBody.innerHTML = '';
+                
+                this.currentData.slice(0, 10).forEach(student => {
+                    const row = document.createElement('tr');
+                    
+                    // Create appropriate tracker based on education level
+                    let tracker;
+                    if (student.Education_Level === 'Primary') {
+                        tracker = new PrimaryStudentTracker(student);
+                    } else if (student.Education_Level === 'High School') {
+                        tracker = new HighSchoolStudentTracker(student);
+                    } else {
+                        tracker = new ProgressTracker(student);
+                    }
+                    
+                    const improvement = tracker.calculateImprovement();
+                    const progressPercentage = Math.min(tracker.getProgressPercentage(), 100);
+                    
+                    row.innerHTML = `
+                        <td>${student.User_ID}</td>
+                        <td>${student.Education_Level}</td>
+                        <td>${improvement.computer > 0 ? '+' : ''}${improvement.computer}</td>
+                        <td>${improvement.internet > 0 ? '+' : ''}${improvement.internet}</td>
+                        <td>${improvement.mobile > 0 ? '+' : ''}${improvement.mobile}</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progressPercentage}%"></div>
+                            </div>
+                            ${progressPercentage.toFixed(1)}%
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            initCharts() {
+                // Skills Improvement Chart
+                const skillsCtx = document.getElementById('skills-chart').getContext('2d');
+                this.charts.skills = new Chart(skillsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Computer', 'Internet', 'Mobile'],
+                        datasets: [{
+                            label: 'Pre-Training',
+                            data: [
+                                this.currentData.reduce((sum, student) => sum + student.Basic_Computer_Knowledge_Score, 0) / this.currentData.length,
+                                this.currentData.reduce((sum, student) => sum + student.Internet_Usage_Score, 0) / this.currentData.length,
+                                this.currentData.reduce((sum, student) => sum + student.Mobile_Literacy_Score, 0) / this.currentData.length
+                            ],
+                            backgroundColor: 'rgba(67, 97, 238, 0.7)'
+                        }, {
+                            label: 'Post-Training',
+                            data: [
+                                this.currentData.reduce((sum, student) => sum + student.Post_Training_Basic_Computer_Knowledge_Score, 0) / this.currentData.length,
+                                this.currentData.reduce((sum, student) => sum + student.Post_Training_Internet_Usage_Score, 0) / this.currentData.length,
+                                this.currentData.reduce((sum, student) => sum + student.Post_Training_Mobile_Literacy_Score, 0) / this.currentData.length
+                            ],
+                            backgroundColor: 'rgba(58, 12, 163, 0.7)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Average Score'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Literacy Distribution Chart
+                const distributionCtx = document.getElementById('distribution-chart').getContext('2d');
+                
+                // Create score ranges
+                const ranges = [
+                    { min: 0, max: 20, label: '0-20' },
+                    { min: 21, max: 40, label: '21-40' },
+                    { min: 41, max: 60, label: '41-60' },
+                    { min: 61, max: 80, label: '61-80' },
+                    { min: 81, max: 100, label: '81-100' }
+                ];
+                
+                const distributionData = ranges.map(range => {
+                    return this.currentData.filter(student => 
+                        student.Overall_Literacy_Score >= range.min && 
+                        student.Overall_Literacy_Score <= range.max).length;
+                });
+                
+                this.charts.distribution = new Chart(distributionCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ranges.map(range => range.label),
+                        datasets: [{
+                            data: distributionData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Students by Literacy Score Range'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            updateCharts() {
+                // Update skills chart
+                this.charts.skills.data.datasets[0].data = [
+                    this.currentData.reduce((sum, student) => sum + student.Basic_Computer_Knowledge_Score, 0) / this.currentData.length,
+                    this.currentData.reduce((sum, student) => sum + student.Internet_Usage_Score, 0) / this.currentData.length,
+                    this.currentData.reduce((sum, student) => sum + student.Mobile_Literacy_Score, 0) / this.currentData.length
+                ];
+                
+                this.charts.skills.data.datasets[1].data = [
+                    this.currentData.reduce((sum, student) => sum + student.Post_Training_Basic_Computer_Knowledge_Score, 0) / this.currentData.length,
+                    this.currentData.reduce((sum, student) => sum + student.Post_Training_Internet_Usage_Score, 0) / this.currentData.length,
+                    this.currentData.reduce((sum, student) => sum + student.Post_Training_Mobile_Literacy_Score, 0) / this.currentData.length
+                ];
+                
+                this.charts.skills.update();
+                
+                // Update distribution chart
+                const ranges = [
+                    { min: 0, max: 20 },
+                    { min: 21, max: 40 },
+                    { min: 41, max: 60 },
+                    { min: 61, max: 80 },
+                    { min: 81, max: 100 }
+                ];
+                
+                const distributionData = ranges.map(range => {
+                    return this.currentData.filter(student => 
+                        student.Overall_Literacy_Score >= range.min && 
+                        student.Overall_Literacy_Score <= range.max).length;
+                });
+                
+                this.charts.distribution.data.datasets[0].data = distributionData;
+                this.charts.distribution.update();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('education-filter').addEventListener('change', () => {
+                    this.applyFilters();
+                });
+                
+                document.getElementById('location-filter').addEventListener('change', () => {
+                    this.applyFilters();
+                });
+                
+                document.getElementById('engagement-filter').addEventListener('change', () => {
+                    this.applyFilters();
+                });
+                
+                document.getElementById('search').addEventListener('input', () => {
+                    this.applyFilters();
+                });
+            }
+            
+            applyFilters() {
+                const filters = {
+                    education: document.getElementById('education-filter').value,
+                    location: document.getElementById('location-filter').value,
+                    engagement: document.getElementById('engagement-filter').value,
+                    search: document.getElementById('search').value
+                };
+                
+                this.currentData = this.fileHandler.filterData(filters);
+                this.updateStats();
+                this.renderStudentTable();
+                this.updateCharts();
+            }
+        }
+
+        // Initialize the dashboard when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new DashboardController();
+        });
+    </script>
+</body>
+</html>
